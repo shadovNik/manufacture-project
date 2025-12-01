@@ -1,0 +1,23 @@
+.login-form__submit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 30%;
+    background-color: rgba(25, 79, 154, 1);
+    border-radius: 14px;
+    padding: 10px 0;
+    border: none;
+    
+    font-size: 16px;
+    line-height: 100%;
+    color: white;
+}
+
+.login-form__submit-button:hover {
+    background-color: rgba(20, 63, 123, 1);
+}
+
+.login-form__submit-button:active {
+    background-color: rgba(15, 47, 92, 1);
+}

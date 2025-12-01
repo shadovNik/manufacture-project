@@ -1,0 +1,32 @@
+.main-info-component-container {
+    width: 55vw;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(128, 198, 235, 1);
+    border-radius: 20px;
+    padding: 25px 0px;
+}
+
+.main-info-component-header {
+    color: rgba(255, 255, 255, 1);
+    font-weight: 500;
+    line-height: 100%;
+    text-transform: uppercase;
+}
+
+.main-info-component-subheader {
+    color: rgba(255, 255, 255, 1);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 100%;
+}
+
+.main-info-component-description {
+    color: rgba(255, 255, 255, 1);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 100%;
+}

@@ -1,0 +1,116 @@
+#root {
+  gap: 15px;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: inherit;
+}
+
+
+body {
+  font-family: "Nunito Sans", sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fff;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+
+/* Общий стиль для форм и инпутов */
+.form {
+  padding-top: 25px;
+  padding-bottom: 15px;
+  width: 55vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  border-radius: 24px;
+  background-color: rgba(223, 241, 250, 1);
+  box-shadow: 0px 6px 58px 0px rgba(196, 203, 214, 0.1);
+}
+
+.form__title {
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 100%;
+  text-align: center;
+}
+
+.form-input__container {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-input__container label {
+  margin-top: 14px;
+}
+
+.form-input__container label:first-child {
+  margin-top: 0;
+}
+
+.form-input__label {
+  padding-left: 6px;
+  font-weight: 700;
+  font-size: 14px;
+  color: rgba(125, 133, 146, 1);
+}
+
+.form-input__field {
+  border: 1px solid rgba(216, 224, 240, 1);
+  border-radius: 14px;
+  padding: 10px 0;
+  padding-left: 16px;
+
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.form-input__field::placeholder {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+input:-internal-autofill-selected {
+  box-shadow: 0 0 0px 1000px white inset !important;
+  -webkit-text-fill-color: #000 !important;
+  background-color: white !important;  
+}
+
+.form-link {
+    font-size: 14px;
+    color: rgba(25, 79, 154, 1);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.form-link:hover {
+    text-decoration: underline;
+}
+
+.form-link:active {
+    color: rgba(15, 47, 92, 1);
+}
+/* Конец общего стиля для форм и инпутов */
