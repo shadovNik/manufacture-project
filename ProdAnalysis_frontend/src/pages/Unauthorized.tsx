@@ -46,21 +46,7 @@ const Unauthorized = () => {
                 Чтобы продолжить, пожалуйста, войдите в аккаунт.
             </p>
 
-            <Link
-                to="/login"
-                style={{
-                    marginTop: '15px',
-                    padding: '10px 22px',
-                    backgroundColor: '#cfe2ec',
-                    color: '#355466',
-                    textDecoration: 'none',
-                    borderRadius: '12px',
-                    fontSize: '16px',
-                    transition: '0.2s ease',
-                }}
-                onMouseEnter={(e) => (e.target.style.backgroundColor = '#bfd7e4')}
-                onMouseLeave={(e) => (e.target.style.backgroundColor = '#cfe2ec')}
-            >
+            <Link to="/login" className="enter-button">
                 Войти
             </Link>
         </div>

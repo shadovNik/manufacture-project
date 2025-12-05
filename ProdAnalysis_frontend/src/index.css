@@ -114,3 +114,22 @@ input:-internal-autofill-selected {
     color: rgba(15, 47, 92, 1);
 }
 /* Конец общего стиля для форм и инпутов */
+
+/* Кнопки входа и регистрации */
+.enter-button {
+  margin-top: 15px;
+  padding: 10px 22px;
+  background-color: #cfe2ec;
+  color: #355466;
+  text-decoration: none;
+  border-radius: 12px;
+  font-size: 16px;
+  transition: 0.2s ease;
+}
+.enter-button:hover {
+  background-color: #bfd7e4;
+}
+.enter-button:active {
+  background-color: #cfe2ec;
+}
+/* Конец кнопок входа и регистрации */

@@ -21,3 +21,9 @@
 .login-form__submit-button:active {
     background-color: rgba(15, 47, 92, 1);
 }
+
+.login-form-error {
+    color: red;
+    font-size: 16px;
+    line-height: 100%;
+}

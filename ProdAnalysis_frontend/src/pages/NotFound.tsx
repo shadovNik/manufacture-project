@@ -36,21 +36,7 @@ const NotFound = () => {
                 Упс... Такой страницы не существует.
             </p>
 
-            <Link
-                to="/"
-                style={{
-                    marginTop: '15px',
-                    padding: '10px 22px',
-                    backgroundColor: '#cfe2ec',
-                    color: '#355466',
-                    textDecoration: 'none',
-                    borderRadius: '12px',
-                    fontSize: '16px',
-                    transition: '0.2s ease',
-                }}
-                onMouseEnter={(e) => (e.target.style.backgroundColor = '#bfd7e4')}
-                onMouseLeave={(e) => (e.target.style.backgroundColor = '#cfe2ec')}
-            >
+            <Link to="/" className="enter-button">
                 Вернуться на главную
             </Link>
         </div>
