@@ -44,7 +44,21 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    cursor: pointer;
+}
+
+.header-info-time {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+    color: rgba(255, 255, 255, 1);
 }
 
 .header-info--work {
@@ -55,13 +69,6 @@
     text-align: center;
     color: rgba(255, 255, 255, 1);
 }
-.header-info--work:hover {
-    opacity: 0.8;
-}
-
-.header-info--work:active {
-    opacity: 0.6;
-}
 
 .header-info--profile {
     display: flex;
@@ -69,14 +76,6 @@
     gap: 5px;
     justify-content: center;
     align-items: center;
-}
-
-.header-info--profile:hover {
-    opacity: 0.8;
-}
-
-.header-info--profile:active {
-    opacity: 0.6;
 }
 
 .profile-name {

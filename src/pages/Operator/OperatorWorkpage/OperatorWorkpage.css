@@ -1,0 +1,38 @@
+.workpage-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding-top: 24px;
+}
+
+.workpage-info {
+    width: 75vw;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.workpage-info-element {
+    padding: 16px 13px;
+    border: 2px solid black;
+    border-radius: 20px;
+    background-color: rgba(1, 142, 215, 0.13);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.workpage-info-element--title {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 100%;
+    text-align: left;
+}
+
+@media (width < 700px) {
+    .workpage-info {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

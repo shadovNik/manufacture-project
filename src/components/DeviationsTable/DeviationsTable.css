@@ -1,0 +1,53 @@
+.deviations-table-container {
+    width: 75vw;
+    margin: 20px 0;
+}
+
+.deviations-table-container--header {
+    margin-bottom: 16px;
+    font-size: 1.5rem;
+}
+
+.deviations-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.deviations-table th {
+    border-bottom: 2px solid #ddd;
+    padding: 12px 16px;
+    text-align: left;
+    background-color: #f8f8f8;
+    font-weight: 600;
+}
+
+.deviations-table td {
+    border-bottom: 1px solid #eee;
+    padding: 12px 16px; 
+}
+
+.deviations-table-status {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+.deviations-table-status--completed {
+    background-color: #e6f4ea;
+    color: #276749;
+}
+.deviations-table-status--in-progress {
+    background-color: #ebf8ff;
+    color: #2c7be5;
+}
+.deviations-table-status--canceled {
+    background-color: #ffe6e6;
+    color: #c53030;
+}
+
+.empty-deviations-table {
+    font-size: 1.2rem;
+    padding: 20px;
+    text-align: center;
+    color: #666;
+}

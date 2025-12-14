@@ -1,44 +1,45 @@
 import { Link } from 'react-router-dom';
 import './Header.css';
+import Clock from '../Clock';
 
-const Header = () => {
+const SupervisorHeader = () => {
     const isActive = (path: string) => location.pathname === path;
-
     return (
         <>
             <div className='header'>
                 <nav className='header-nav'>
                     <Link 
-                        to="/login"
+                        to="/"
                         className={`header-link ${isActive("/") ? "header-link--active" : ""}`}
                     >
                         Рабочий стол
                     </Link>
                     <Link 
-                        to="/login"
+                        to="/"
                         className={`header-link ${isActive("/") ? "header-link--active" : ""}`}
                     >
-                        Заполнение ПА
+                        Создание ПА
                     </Link>
                     <Link 
-                        to="/login"
+                        to="/"
                         className={`header-link ${isActive("/") ? "header-link--active" : ""}`}
                     >
-                        Отчёты
+                        Проверка
                     </Link>
                 </nav>
-                {isActive("/") && (
-                    <div className='header-info'>
-                        <p className='header-info--work'>Рабочий стол оператора</p>
-                        <Link to="/" className='header-info--profile'>
-                            <img src='/public/ProfileIcon.svg' className='profile-icon' alt='Профиль' width='32' height='32' />
-                            <p className='profile-name'>Имя Фамилия</p>
-                        </Link>
+                <div className='header-info'>
+                    <div className='header-info-time' >
+                        <p className='header-info--work'>Рабочий стол начальника смены |</p>
+                        <Clock />
                     </div>
-                )}
+                    <div className='header-info--profile'>
+                        <img src='/ProfileIcon.svg' className='profile-icon' alt='Профиль' width='32' height='32' />
+                        <p className='profile-name'>Имя Фамилия</p>
+                    </div>
+                </div>
             </div>
         </>
     )
 }
 
-export default Header;
+export default SupervisorHeader;
