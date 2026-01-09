@@ -1,0 +1,71 @@
+.supervisor-workpage-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding-top: 24px;
+}
+
+.supervisor-workpage-no-shift {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    width: 50vw;
+    padding: 20px;
+    border: 2px solid black;
+    border-radius: 20px;
+    background-color: rgba(255, 0, 0, 0.1);
+    color: red;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+}
+
+.supervisor-workpage-no-shift-button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 10px;
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+}
+.supervisor-workpage-no-shift-button:hover {
+    background-color: rgba(255, 0, 0, 1);
+}
+.supervisor-workpage-no-shift-button:active {
+    background-color: rgba(200, 0, 0, 1);
+}
+
+.supervisor-workpage-info {
+    width: 75vw;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.supervisor-workpage-info-element {
+    padding: 16px 13px;
+    border: 2px solid black;
+    border-radius: 20px;
+    background-color: rgba(1, 142, 215, 0.13);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.supervisor-workpage-info-element--title {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 100%;
+    text-align: left;
+}
+
+@media (width < 700px) {
+    .supervisor-workpage-info {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

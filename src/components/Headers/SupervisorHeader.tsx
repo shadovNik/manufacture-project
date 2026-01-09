@@ -1,28 +1,38 @@
 import { Link } from 'react-router-dom';
 import './Header.css';
 import Clock from '../Clock';
+import { useState } from 'react';
+import SupervisorChose from '../SupervisorChose/SupervisorChose';
 
 const SupervisorHeader = () => {
     const isActive = (path: string) => location.pathname === path;
+    const isReportAddActive = location.pathname.startsWith('/supervisor-reportadd');
+
+    const [isChoseModalOpen, setIsChoseModalOpen] = useState<boolean>(false);
+
+    const handleChoseModal = () => {
+        setIsChoseModalOpen(prev => !prev);
+    };
+
     return (
         <>
             <div className='header'>
                 <nav className='header-nav'>
                     <Link 
-                        to="/"
-                        className={`header-link ${isActive("/") ? "header-link--active" : ""}`}
+                        to="/supervisor-workpage"
+                        className={`header-link ${isActive("/supervisor-workpage") ? "header-link--active" : ""}`}
                     >
                         Рабочий стол
                     </Link>
-                    <Link 
-                        to="/"
-                        className={`header-link ${isActive("/") ? "header-link--active" : ""}`}
+                    <p 
+                        className={`header-link ${isReportAddActive ? "header-link--active" : ""}`}
+                        onClick={handleChoseModal}
                     >
                         Создание ПА
-                    </Link>
+                    </p>
                     <Link 
-                        to="/"
-                        className={`header-link ${isActive("/") ? "header-link--active" : ""}`}
+                        to="/supervisor-check"
+                        className={`header-link ${isActive("/supervisor-check") ? "header-link--active" : ""}`}
                     >
                         Проверка
                     </Link>
@@ -38,6 +48,9 @@ const SupervisorHeader = () => {
                     </div>
                 </div>
             </div>
+            {isChoseModalOpen && (
+                <SupervisorChose />
+            )}
         </>
     )
 }

@@ -27,3 +27,35 @@
     font-size: 16px;
     line-height: 100%;
 }
+
+.password-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-field {
+    width: 100%;
+    padding-right: 48px;
+}
+
+.password-toggle-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+}
+.password-toggle-btn:hover {
+    opacity: 70%;
+}
+.password-toggle-btn:active {
+    opacity: 90%;
+}

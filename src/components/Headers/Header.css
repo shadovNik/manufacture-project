@@ -17,6 +17,7 @@
 }
 
 .header-link {
+    cursor: pointer;
     color: rgba(255, 255, 255, 1);
     font-weight: 400;
     font-style: Regular;

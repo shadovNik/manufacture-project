@@ -9,26 +9,26 @@ const AdminHeader = () => {
             <div className='header'>
                 <nav className='header-nav'>
                     <Link 
-                        to="/"
-                        className={`header-link ${isActive("/") ? "header-link--active" : ""}`}
+                        to="/admin-workpage"
+                        className={`header-link ${isActive("/admin-workpage") ? "header-link--active" : ""}`}
                     >
                         Рабочий стол
                     </Link>
                     <Link 
-                        to="/"
-                        className={`header-link ${isActive("/") ? "header-link--active" : ""}`}
+                        to="/admin-analysis"
+                        className={`header-link ${isActive("/admin-analysis") ? "header-link--active" : ""}`}
                     >
                         Аналитика
                     </Link>
                     <Link 
-                        to="/"
-                        className={`header-link ${isActive("/") ? "header-link--active" : ""}`}
+                        to="/admin-referencebook"
+                        className={`header-link ${isActive("/admin-referencebook") ? "header-link--active" : ""}`}
                     >
                         Справочники
                     </Link>
                     <Link 
-                        to="/"
-                        className={`header-link ${isActive("/") ? "header-link--active" : ""}`}
+                        to="/admin-employees"
+                        className={`header-link ${isActive("/admin-employees") ? "header-link--active" : ""}`}
                     >
                         Сотрудники
                     </Link>
