@@ -1,18 +1,35 @@
 import { Link } from 'react-router-dom';
 import './Header.css';
 import Clock from '../Clock';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SupervisorChose from '../SupervisorChose/SupervisorChose';
 
 const SupervisorHeader = () => {
+    const [isChoseModalOpen, setIsChoseModalOpen] = useState<boolean>(false);
+
+    const choseModalRef = useRef<HTMLDivElement>(null);
+
     const isActive = (path: string) => location.pathname === path;
     const isReportAddActive = location.pathname.startsWith('/supervisor-reportadd');
-
-    const [isChoseModalOpen, setIsChoseModalOpen] = useState<boolean>(false);
 
     const handleChoseModal = () => {
         setIsChoseModalOpen(prev => !prev);
     };
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (isChoseModalOpen && choseModalRef.current && !choseModalRef.current.contains(event.target as Node)) {
+                setIsChoseModalOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isChoseModalOpen]);
+
 
     return (
         <>
@@ -49,7 +66,9 @@ const SupervisorHeader = () => {
                 </div>
             </div>
             {isChoseModalOpen && (
-                <SupervisorChose />
+                <div ref={choseModalRef}>
+                    <SupervisorChose />
+                </div>
             )}
         </>
     )

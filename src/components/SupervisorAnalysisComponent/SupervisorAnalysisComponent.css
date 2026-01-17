@@ -1,0 +1,199 @@
+.supervisor-analysis-component-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.supervisor-analysis-component-header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    padding: 10px 12px;
+    width: 65vw;
+
+    border: 2px solid #000000;
+    border-radius: 20px;
+}
+
+.supervisor-analysis-component-header--title {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 100%;
+}
+
+.supervisor-analysis-component-header--subtitle {
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 100%;
+    opacity: 0.85;
+}
+
+.supervisor-analysis-component-main-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 55vw;
+}
+
+.supervisor-analysis-component-main-info--header {
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 100%;
+}
+
+.blueLine {
+    width: 100%;
+    height: 1.5px;
+    background-color: rgba(181, 227, 251, 0.9);
+}
+
+.supervisor-analysis-component-main-info--info-block {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px 12px;
+    width: 100%;
+}
+
+.supervisor-analysis-component-main-info--info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.info-item--label {
+    font-weight: 500;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 1);
+}
+
+.info-item--value {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 100%;
+}
+
+.info-item--value.select,
+.info-item--value.input {
+    width: 100%;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 15px;
+    background: rgba(240, 240, 240, 1);
+}
+
+.supervisor-analysis-component-calculations-params {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 55vw;
+}
+
+.supervisor-analysis-component-calculations-params--header {
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 100%;
+}
+
+.supervisor-analysis-component-calculations-params--params-block {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px 12px;
+    width: 100%;
+}
+
+.supervisor-analysis-component-calculations-params--param-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.param-item--label {
+    font-weight: 500;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 1);
+}
+
+.param-item--value {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 100%;
+}
+
+.param-item--value.input {
+    width: 100%;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 15px;
+    background: rgba(240, 240, 240, 1);
+}
+
+.supervisor-analysis-component-generate-table-button {
+    cursor: pointer;
+    width: 15vw;
+    padding: 10px;
+    background-color: rgba(119, 178, 224, 1);
+    border: none;
+    border-radius: 20px;
+
+    font-size: 18px;
+    line-height: 100%;
+    text-align: center;
+    color: white;
+}
+.supervisor-analysis-component-generate-table-button:hover {
+    background-color: rgba(99, 149, 189, 1);
+}
+.supervisor-analysis-component-generate-table-button:active {
+    background-color: rgba(79, 119, 159, 1);
+}
+
+.production-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  line-height: 1.3;
+}
+
+.production-table th,
+.production-table td {
+  border: 1px solid #e0e0e0;
+  padding: 8px 10px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* Чёрные жирные разделители между основными группами */
+.production-table th:nth-child(1),
+.production-table td:nth-child(1) {
+  border-right: 2px solid #000;          /* после Время */
+}
+
+.production-table th:nth-child(5),
+.production-table td:nth-child(5) {
+  border-right: 2px solid #000;          /* после Факт ∑ */
+}
+
+.production-table th:nth-child(9),
+.production-table td:nth-child(9) {
+  border-right: 2px solid #000;          /* после Откл. ∑ */
+}
+
+.production-table th:nth-child(11),
+.production-table td:nth-child(11) {
+  border-right: 2px solid #000;          /* после Простой */
+}
+
+/* Более тёмные заголовки для групп */
+.production-table thead tr:nth-child(1) th {
+  background-color: #f0f0f0;
+  font-weight: 600;
+}
+
+/* Если используете группировку колонок — дополнительно */
+.production-table .group-header {
+  background-color: #e8f0fe;
+  font-weight: bold;
+}

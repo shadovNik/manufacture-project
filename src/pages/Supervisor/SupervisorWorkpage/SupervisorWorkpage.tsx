@@ -15,6 +15,7 @@ const SupervisorWorkpage = () => {
 
     const closeWorkShiftModal = () => {
         setIsWorkShiftModalOpen(false);
+        setIsWorkShiftExist(false);
     }
 
     return(

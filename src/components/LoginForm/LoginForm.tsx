@@ -2,17 +2,17 @@ import { useState } from "react";
 import "./LoginForm.css";
 
 import { ArrowRight, Eye, EyeOff } from "lucide-react";
-import { Link, useNavigate} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
 // @ts-ignore
-import axiosInstance from "../../utils/axiosInstance";
+// import axiosInstance from "../../utils/axiosInstance";
 
-type AuthResponse = {
-    accessToken: string;
-    refreshToken: string;
-    userID: number;
-    role: string; // Operator(1), Supervisor(2), Admin(3)
-};
+// type AuthResponse = {
+//     accessToken: string;
+//     refreshToken: string;
+//     userID: number;
+//     role: string; // Operator(1), Supervisor(2), Admin(3)
+// };
 
 const LoginForm = () => {
     const [login, setLogin] = useState("");
@@ -22,16 +22,12 @@ const LoginForm = () => {
 
     const navigate = useNavigate();
 
-    const togglePassword = () => {
-        setShowPassword((prev) => !prev);
-    }
-
     // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     //     e.preventDefault();
     //     setError(null);
 
     //     try {
-    //         const { data } = await axiosInstance.post<AuthResponse>("/api/login", {
+    //         const { data } = await axiosInstance.post<AuthResponse>("/login", {
     //             personalKey: login,
     //             password: password
     //         });
@@ -41,36 +37,36 @@ const LoginForm = () => {
     //         localStorage.setItem("refresh_token", data.refreshToken);
     //         localStorage.setItem("user_id", data.userID);
 
-    //         // let roleString = "";
+    //         let roleString = "";
 
-    //         // if (data.role === 1) {
-    //         //     roleString = "Opeartor";
-    //         // }
-    //         // else if (data.role === 2) {
-    //         //     roleString = "Supervisor";
-    //         // }
-    //         // else if (data.role === 3) {
-    //         //     roleString = "Admin";
-    //         // }
+    //         if (data.role === 1) {
+    //             roleString = "Opeartor";
+    //         }
+    //         else if (data.role === 2) {
+    //             roleString = "Supervisor";
+    //         }
+    //         else if (data.role === 3) {
+    //             roleString = "Admin";
+    //         }
 
-    //         // localStorage.setItem("user_role", roleString);
+    //         localStorage.setItem("user_role", roleString);
 
-    //         // if (data.role === 1)
-    //         // {
-    //         //     navigate("/");
-    //         // }
-    //         // else if (data.role === 2)
-    //         // {
-    //         //     navigate("/");
-    //         // }
-    //         // else if (data.role === 3)
-    //         // {
-    //         //     navigate("/");
-    //         // }
-    //         // else
-    //         // {
-    //         //     navigate("/unauthorized");
-    //         // }
+    //         if (data.role === 1)
+    //         {
+    //             navigate("/");
+    //         }
+    //         else if (data.role === 2)
+    //         {
+    //             navigate("/");
+    //         }
+    //         else if (data.role === 3)
+    //         {
+    //             navigate("/");
+    //         }
+    //         else
+    //         {
+    //             navigate("/unauthorized");
+    //         }
     //     }
     //     catch (err: any) {
     //         if (err.response?.status === 401)
@@ -96,6 +92,7 @@ const LoginForm = () => {
       }
       else {
         navigate('/admin-workpage');
+        setError('123');
       }
     }
     
