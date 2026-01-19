@@ -74,3 +74,16 @@
 .create-work-shift-modal-button--cancel:active {
     background-color: rgba(200, 0, 0, 1);
 }
+
+.select-with-pagination {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+.load-more-button {
+    padding: 5px 10px;
+    cursor: pointer;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

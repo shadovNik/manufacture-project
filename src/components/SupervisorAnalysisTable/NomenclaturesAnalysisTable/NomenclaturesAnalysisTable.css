@@ -1,0 +1,104 @@
+.nom-table .product-label {
+    writing-mode: vertical-rl; /* Вертикальный текст как на image_a5ab54.png */
+    transform: rotate(180deg);
+    font-weight: bold;
+    background-color: #f9f9f9;
+    width: 40px;
+    border-right: 2px solid #333;
+}
+
+.changeover-row {
+    background-color: #e3f2fd; /* Голубой фон для переналадки */
+    font-weight: bold;
+}
+
+.changeover-row td {
+    border-top: 2px solid #1976d2;
+    border-bottom: 2px solid #1976d2;
+}
+
+.nomenclature-input-table {
+    width: 100%;
+    margin: 15px 0;
+    border-collapse: collapse;
+}
+
+.nomenclature-input-table th, .nomenclature-input-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.add-nom-btn {
+    background-color: #e0f2fe;
+    color: #0369a1;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.del-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* Ячейка с названием изделия (горизонтальная, объединенная) */
+.nom-table .product-label-cell {
+    font-weight: bold;
+    background-color: #ffffff;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+    width: 120px; /* Фиксированная ширина, чтобы название помещалось */
+    border-right: 2px solid #333;
+}
+
+/* Строка переналадки */
+.changeover-row {
+    background-color: #e3f2fd; /* Светло-голубой фон */
+    font-weight: bold;
+}
+
+/* Стили для текста "ПЕРЕНАЛАДКА" или "15 мин" в этой строке */
+.changeover-row td {
+    border-top: 1px solid #1976d2;
+    border-bottom: 1px solid #1976d2;
+    color: #0d47a1;
+}
+
+/* Чтобы текст в переналадке всегда был горизонтальным и читабельным */
+.horizontal-text {
+    white-space: nowrap;
+    font-weight: bold;
+}
+
+.changeover-input {
+    background-color: #fff !important;
+    border: 1px solid #1976d2 !important;
+    font-weight: bold;
+    color: #0d47a1;
+}
+
+/* Подсветка отрицательного отклонения */
+.text-red {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+/* Базовые отступы для инпутов в таблице */
+.analysis-table input {
+    width: 100%;
+    text-align: center;
+    border: none;
+    background: transparent;
+    padding: 5px 0;
+}
+
+.analysis-table input:focus {
+    background: #fff;
+    outline: 1px solid #333;
+}

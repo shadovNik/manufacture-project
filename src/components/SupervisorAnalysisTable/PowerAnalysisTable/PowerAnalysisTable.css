@@ -1,0 +1,47 @@
+.table-container {
+    padding: 20px;
+}
+
+.table-header-info {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.analysis-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #333;
+}
+
+.analysis-table th, .analysis-table td {
+    border: 1px solid #333;
+    padding: 8px;
+    text-align: center;
+}
+
+.analysis-table th {
+    background-color: #d9d9d9;
+}
+
+.break-row {
+    background-color: #f0f0f0;
+}
+
+.analysis-table input {
+    width: 100%;
+    border: none;
+    text-align: center;
+    background: transparent;
+}
+
+.analysis-table input:focus {
+    outline: 2px solid #0056b3;
+    background: white;
+}
+
+.text-danger {
+    color: red;
+    font-weight: bold;
+}

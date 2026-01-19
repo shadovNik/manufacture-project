@@ -1,0 +1,101 @@
+/* Контейнер для прокрутки, если таблица не влезает по ширине */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+    background-color: #fff;
+    padding-bottom: 20px;
+}
+
+/* Основные стили таблицы */
+.analysis-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    border: 2px solid #333; /* Толстая внешняя рамка */
+}
+
+/* Стили заголовков */
+.analysis-table thead th {
+    background-color: #d9d9d9; /* Серый цвет как на скриншоте */
+    color: #333;
+    font-weight: 600;
+    padding: 10px 5px;
+    border: 1px solid #333;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Стили ячеек */
+.analysis-table td {
+    border: 1px solid #333;
+    padding: 8px;
+    text-align: center;
+    height: 40px;
+}
+
+/* Выделение строк с перерывами */
+.break-row {
+    background-color: #f0f0f0;
+    font-style: italic;
+    color: #555;
+}
+
+.break-row td {
+    background-color: #e9ecef;
+}
+
+/* Стили для полей ввода внутри ячеек */
+.analysis-table input, 
+.analysis-table select {
+    width: 100%;
+    height: 32px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+/* Убираем рамки у инпутов, чтобы они сливались с таблицей до фокуса */
+.analysis-table td input {
+    border: none;
+    background: transparent;
+    text-align: center;
+}
+
+.analysis-table td input:focus {
+    outline: 2px solid #0056b3;
+    background: #fff;
+    border-radius: 2px;
+}
+
+/* Подсветка строки ИТОГО */
+.total-row {
+    background-color: #d9d9d9;
+    font-weight: bold;
+}
+
+.total-row td {
+    border-top: 2px solid #333;
+}
+
+/* Специфические стили для текстовых комментариев */
+.analysis-table input[placeholder] {
+    text-align: left;
+    padding-left: 8px;
+}
+
+/* Hover-эффект для строк (кроме перерывов) */
+.analysis-table tbody tr:not(.break-row):not(.total-row):hover {
+    background-color: #f8f9fa;
+}
+
+/* Убираем стрелочки у input type="number" */
+.analysis-table input::-webkit-outer-spin-button,
+.analysis-table input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

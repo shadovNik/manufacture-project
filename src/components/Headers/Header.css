@@ -72,11 +72,37 @@
 }
 
 .header-info--profile {
+    position: relative;
+    cursor: pointer;
     display: flex;
     flex-direction: row;
     gap: 5px;
     justify-content: center;
     align-items: center;
+}
+.profile-dropdown {
+    cursor: default;
+    position: absolute;
+    top: 110%;
+    right: 50%;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 10px;
+    border-radius: 4px;
+    z-index: 1000;
+}
+
+.logout-button {
+    background: none;
+    border: none;
+    color: #ff4d4f;
+    cursor: pointer;
+    font-size: 14px;
+    white-space: nowrap;
+}
+.logout-button:hover {
+    text-decoration: underline;
 }
 
 .profile-name {

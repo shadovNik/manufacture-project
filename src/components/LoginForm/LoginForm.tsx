@@ -5,14 +5,14 @@ import { ArrowRight, Eye, EyeOff } from "lucide-react";
 import { useNavigate} from "react-router-dom";
 
 // @ts-ignore
-// import axiosInstance from "../../utils/axiosInstance";
+import axiosInstance from "../../utils/axiosInstance";
 
-// type AuthResponse = {
-//     accessToken: string;
-//     refreshToken: string;
-//     userID: number;
-//     role: string; // Operator(1), Supervisor(2), Admin(3)
-// };
+type AuthResponse = {
+    accessToken: string;
+    refreshToken: string;
+    id: number;
+    role: string; // Operator(1), Supervisor(2), Admin(3)
+};
 
 const LoginForm = () => {
     const [login, setLogin] = useState("");
@@ -22,82 +22,72 @@ const LoginForm = () => {
 
     const navigate = useNavigate();
 
-    // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    //     e.preventDefault();
-    //     setError(null);
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setError(null);
 
-    //     try {
-    //         const { data } = await axiosInstance.post<AuthResponse>("/login", {
-    //             personalKey: login,
-    //             password: password
-    //         });
+        try {
+            const { data } = await axiosInstance.post<AuthResponse>("/login", {
+                email: login,
+                personalKey: password
+            });
 
-    //         localStorage.setItem("access_token", data.accessToken);
-    //         localStorage.setItem("Bearer", data.accessToken);
-    //         localStorage.setItem("refresh_token", data.refreshToken);
-    //         localStorage.setItem("user_id", data.userID);
+            console.log(data);
 
-    //         let roleString = "";
+            navigate('/login');
 
-    //         if (data.role === 1) {
-    //             roleString = "Opeartor";
-    //         }
-    //         else if (data.role === 2) {
-    //             roleString = "Supervisor";
-    //         }
-    //         else if (data.role === 3) {
-    //             roleString = "Admin";
-    //         }
+            localStorage.setItem("access_token", data.accessToken);
+            localStorage.setItem("refresh_token", data.refreshToken);
+            localStorage.setItem("user_id", data.id);
+            localStorage.setItem("user_role", data.role);
 
-    //         localStorage.setItem("user_role", roleString);
+            if (data.role === "Operator")
+            {
+                navigate("/operator-workpage");
+            }
+            else if (data.role === "Supervisor")
+            {
+                navigate("/supervisor-workpage");
+            }
+            else if (data.role === "Admin")
+            {
+                navigate("/admin-workpage");
+            }
+            else
+            {
+                navigate("/unauthorized");
+            }
+        }
+        catch (err: any) {
+            if (err.response?.status === 401)
+            {
+                setError("Неверный логин или пароль");
+            }
+            else
+            {
+                setError("Ошибка при входе. Попробуйте позже");
+            }
 
-    //         if (data.role === 1)
-    //         {
-    //             navigate("/");
-    //         }
-    //         else if (data.role === 2)
-    //         {
-    //             navigate("/");
-    //         }
-    //         else if (data.role === 3)
-    //         {
-    //             navigate("/");
-    //         }
-    //         else
-    //         {
-    //             navigate("/unauthorized");
-    //         }
-    //     }
-    //     catch (err: any) {
-    //         if (err.response?.status === 401)
-    //         {
-    //             setError("Неверный логин или пароль");
-    //         }
-    //         else
-    //         {
-    //             setError("Ошибка при входе. Попробуйте позже");
-    //         }
+            console.log(err);
+        }
+    };
 
-    //         console.log(err);
-    //     }
-    // };
-
-    const handleFakeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      if (login === "1") {
-        navigate('/operator-workpage');
-      }
-      else if (login === "2") {
-        navigate('/supervisor-workpage');
-      }
-      else {
-        navigate('/admin-workpage');
-        setError('123');
-      }
-    }
+    // const handleFakeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    //   e.preventDefault();
+    //   if (login === "1") {
+    //     navigate('/operator-workpage');
+    //   }
+    //   else if (login === "2") {
+    //     navigate('/supervisor-workpage');
+    //   }
+    //   else {
+    //     navigate('/admin-workpage');
+    //     setError('123');
+    //   }
+    // }
     
     return (
-      <form className="form" onSubmit={handleFakeSubmit}>
+      <form className="form" onSubmit={handleSubmit}>
         <h2 className="form__title">Вход</h2>
 
         <div className="form-input__container">

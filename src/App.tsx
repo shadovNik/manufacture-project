@@ -1,8 +1,9 @@
 import './App.css'
 
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-// import ProtectedRoute from './components/ProtectedRoute.tsx';
+import ProtectedRoute from './components/ProtectedRoute.tsx';
+import RootRedirect from './utils/RootRedirect.tsx';
 
 import NotFound from './pages/NotFound';
 import Unauthorized from './pages/Unauthorized.tsx';
@@ -31,34 +32,80 @@ function App() {
     <>
       <BrowserRouter basename='/'>
         <Routes>
-          <Route path="/" element={<Navigate to="/supervisor-workpage" />} />
+          <Route path="/" element={<RootRedirect />} />
           <Route path="*" element={<NotFound />} />
           
           <Route path="/unauthorized" element={<Unauthorized />} />
 
           <Route path='/login' element={<Login />} />
-          
-          <Route path='/operator-workpage' element={<OperatorWorkpage />} />
-          <Route path='/operator-report' element={<OperatorReport />} />
 
-          <Route path='/admin-analysis' element={<AdminAnalysis />} />
-          <Route path='/admin-employees' element={<AdminEmployees />} />
-          <Route path='/admin-referencebook' element={<AdminReferencebook />} />
-          <Route path='/admin-workpage' element={<AdminWorkpage />} />
-
-          <Route path='/supervisor-check' element={<SupervisorCheck />} />
-          <Route path='/supervisor-reportadd/tact-duration' element={<SupervisorReportTactDuration />} />
-          <Route path='/supervisor-reportadd/power' element={<SupervisorReportPower />} />
-          <Route path='/supervisor-reportadd/nomenclatures' element={<SupervisorReportNomenclatures />} />
-          <Route path='/supervisor-reportadd/less-than-one-item' element={<SupervisorReportLessItem />} />
-          <Route path='/supervisor-reportadd/less-than-one-unit' element={<SupervisorReportLessUnit />} />
-          {/* <Route path='/supervisor-reportadd/drafts' element={<SupervisorReportDrafts />} /> */}
-          <Route path='/supervisor-workpage' element={<SupervisorWorkpage />} />
-          {/* <Route path="PATH" element={
-            <ProtectedRoute allowedRoles={['ROLE']}>
-              <PAGE />
+          <Route path="/operator-workpage" element={
+            <ProtectedRoute allowedRoles={['Operator']}>
+              <OperatorWorkpage />
             </ProtectedRoute>
-          } /> */}
+          } />
+          <Route path="/operator-report" element={
+            <ProtectedRoute allowedRoles={['Operator']}>
+              <OperatorReport />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/admin-analysis" element={
+            <ProtectedRoute allowedRoles={['Admin']}>
+              <AdminAnalysis />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin-employees" element={
+            <ProtectedRoute allowedRoles={['Admin']}>
+              <AdminEmployees />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin-referencebook" element={
+            <ProtectedRoute allowedRoles={['Admin']}>
+              <AdminReferencebook />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin-workpage" element={
+            <ProtectedRoute allowedRoles={['Admin']}>
+              <AdminWorkpage />
+            </ProtectedRoute>
+          } />
+
+          <Route path="/supervisor-check" element={
+            <ProtectedRoute allowedRoles={['Supervisor']}>
+              <SupervisorCheck />
+            </ProtectedRoute>
+          } />
+          <Route path="/supervisor-reportadd/tact-duration" element={
+            <ProtectedRoute allowedRoles={['Supervisor']}>
+              <SupervisorReportTactDuration />
+            </ProtectedRoute>
+          } />
+          <Route path="/supervisor-reportadd/power" element={
+            <ProtectedRoute allowedRoles={['Supervisor']}>
+              <SupervisorReportPower />
+            </ProtectedRoute>
+          } />
+          <Route path="/supervisor-reportadd/nomenclatures" element={
+            <ProtectedRoute allowedRoles={['Supervisor']}>
+              <SupervisorReportNomenclatures />
+            </ProtectedRoute>
+          } />
+          <Route path="/supervisor-reportadd/less-than-one-item" element={
+            <ProtectedRoute allowedRoles={['Supervisor']}>
+              <SupervisorReportLessItem />
+            </ProtectedRoute>
+          } />
+          <Route path="/supervisor-reportadd/less-than-one-unit" element={
+            <ProtectedRoute allowedRoles={['Supervisor']}>
+              <SupervisorReportLessUnit />
+            </ProtectedRoute>
+          } />
+          <Route path="/supervisor-workpage" element={
+            <ProtectedRoute allowedRoles={['Supervisor']}>
+              <SupervisorWorkpage />
+            </ProtectedRoute>
+          } />
         </Routes>
       </BrowserRouter>
     </>
