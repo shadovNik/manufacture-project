@@ -81,7 +81,7 @@ const AdminHeader = () => {
                     to="/admin-referencebook"
                     className={`header-link ${isReferencesActive ? "header-link--active" : ""}`}
                 >
-                    Справочники
+                    Справочники 
                 </Link>
                 <Link 
                     to="/admin-employees"
