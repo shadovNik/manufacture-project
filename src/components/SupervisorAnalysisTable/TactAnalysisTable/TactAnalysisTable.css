@@ -99,3 +99,153 @@
     -webkit-appearance: none;
     margin: 0;
 }
+
+/* Контейнер для кнопки под таблицей */
+.table-actions {
+    display: flex;
+    justify-content: flex-end; /* Выравнивание по правому краю */
+    margin-top: 25px;
+    padding-bottom: 50px; /* Отступ снизу страницы */
+}
+
+/* Основной стиль кнопки */
+.submit-to-operator-button {
+    background-color: #0056b3; /* Насыщенный синий цвет */
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Эффект при наведении */
+.submit-to-operator-button:hover:not(:disabled) {
+    background-color: #004494;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Эффект при нажатии */
+.submit-to-operator-button:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Состояние блокировки (когда идет отправка) */
+.submit-to-operator-button:disabled {
+    background-color: #a0aec0; /* Серый цвет */
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    opacity: 0.7;
+}
+
+/* Опционально: стиль для индикатора загрузки внутри кнопки */
+.submit-to-operator-button:disabled::after {
+    content: "...";
+    display: inline-block;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.table-select {
+    width: 100%;
+    padding: 4px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 13px;
+    outline: none;
+}
+
+.table-select:focus {
+    border-color: #0056b3;
+}
+
+.break-row .table-select {
+    display: none; /* Скрываем в строках перерыва */
+}
+
+.table-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px; /* Расстояние между кнопками */
+    margin-top: 20px;
+    padding-bottom: 40px;
+}
+
+/* Кнопка "Сохранить" - более спокойная */
+.save-table-button {
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.save-table-button:hover {
+    background-color: #e2e6ea;
+}
+
+/* Кнопка "Отправить на проверку" - акцентная */
+.submit-to-review-button {
+    background-color: #28a745; /* Зеленая */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
+}
+
+.submit-to-review-button:hover {
+    background-color: #218838;
+}
+
+.submit-to-review-button:disabled, 
+.save-table-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.reject-table-button {
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.reject-table-button:hover {
+    background-color: #f57c00;
+}
+
+/* Кнопка "Принять" (Синяя или Зеленая) */
+.approve-table-button {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.approve-table-button:hover {
+    background-color: #004494;
+}

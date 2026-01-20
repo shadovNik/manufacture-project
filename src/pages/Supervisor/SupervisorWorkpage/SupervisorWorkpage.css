@@ -43,7 +43,7 @@
 .supervisor-workpage-info {
     width: 75vw;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 
@@ -62,6 +62,34 @@
     font-size: 18px;
     line-height: 100%;
     text-align: left;
+}
+
+.supervisor-workpage-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.supervisor-workpage-end-shift-button {
+    background-color: #ff4d4f; /* Красный цвет для акцента завершения */
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.supervisor-workpage-end-shift-button:hover {
+    background-color: #ff7875;
+}
+
+.supervisor-workpage-end-shift-button:active {
+    transform: scale(0.98);
 }
 
 @media (width < 700px) {

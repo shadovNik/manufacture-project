@@ -26,6 +26,11 @@ import SupervisorReportPower from './pages/Supervisor/SupervisorReports/Power/Su
 import SupervisorReportNomenclatures from './pages/Supervisor/SupervisorReports/Nomenclatures/SupervisorReportNomenclatures.tsx';
 import SupervisorReportLessItem from './pages/Supervisor/SupervisorReports/LessThanOneItem/SupervisorReportLessItem.tsx';
 import SupervisorReportLessUnit from './pages/Supervisor/SupervisorReports/LessThanOneUnit/SupervisorReportLessUnit.tsx';
+import OperatorReportDetails from './pages/Operator/OperatorReportDetails/OperatorReportDetails.tsx';
+import SupervisorCheckDetails from './pages/Supervisor/SupervisorCheckDetails/SupervisorCheckDetails.tsx';
+import ProductReference from './pages/Admin/AdminReferencebook/References/ProductReference/ProductReference.tsx';
+import DepartmentReference from './pages/Admin/AdminReferencebook/References/DepartmentReference/DepartmentReference.tsx';
+import ReasonGroupsReference from './pages/Admin/AdminReferencebook/References/ReasonGroupsReference/ReasonGroupsReference.tsx';
 
 function App() {
   return (
@@ -49,6 +54,11 @@ function App() {
               <OperatorReport />
             </ProtectedRoute>
           } />
+          <Route path="/operator-report/:id" element={
+            <ProtectedRoute allowedRoles={['Operator']}>
+              <OperatorReportDetails />
+            </ProtectedRoute>
+          } />
 
           <Route path="/admin-analysis" element={
             <ProtectedRoute allowedRoles={['Admin']}>
@@ -64,7 +74,23 @@ function App() {
             <ProtectedRoute allowedRoles={['Admin']}>
               <AdminReferencebook />
             </ProtectedRoute>
-          } />
+          }>
+            <Route path="products" element={
+              <ProtectedRoute allowedRoles={['Admin']}>
+                <ProductReference />
+              </ProtectedRoute>
+            } />
+            <Route path="departments" element={
+              <ProtectedRoute allowedRoles={['Admin']}>
+                <DepartmentReference />
+              </ProtectedRoute>
+            } />
+            <Route path="reason-groups" element={
+              <ProtectedRoute allowedRoles={['Admin']}>
+                <ReasonGroupsReference />
+              </ProtectedRoute>
+            } />
+          </Route>
           <Route path="/admin-workpage" element={
             <ProtectedRoute allowedRoles={['Admin']}>
               <AdminWorkpage />
@@ -104,6 +130,11 @@ function App() {
           <Route path="/supervisor-workpage" element={
             <ProtectedRoute allowedRoles={['Supervisor']}>
               <SupervisorWorkpage />
+            </ProtectedRoute>
+          } />
+          <Route path="/supervisor-check/:id" element={
+            <ProtectedRoute allowedRoles={['Supervisor']}>
+              <SupervisorCheckDetails />
             </ProtectedRoute>
           } />
         </Routes>

@@ -24,11 +24,39 @@
     gap: 10px;
 }
 
+.operator-workpage-info-element.shift-info {
+    grid-column: 2 / 2;
+}
+.operator-workpage-info-element.deviations-info {
+    grid-column: 3 / 3;
+}
+
 .operator-workpage-info-element--title {
     font-weight: 700;
     font-size: 18px;
     line-height: 100%;
     text-align: left;
+}
+
+.operator-workpage-no-shift {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+    text-align: center;
+    color: #666;
+}
+
+.no-shift-message h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.hint {
+    font-size: 14px;
+    color: #999;
+    margin-top: 20px;
 }
 
 @media (width < 700px) {

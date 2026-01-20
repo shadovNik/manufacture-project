@@ -5,7 +5,7 @@ const RootRedirect = () => {
 
     switch (userRole) {
         case 'Admin':
-            return <Navigate to="/admin-workpage" replace />;
+            return <Navigate to="/admin-employees" replace />;
         case 'Operator':
             return <Navigate to="/operator-workpage" replace />;
         case 'Supervisor':

@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 // @ts-ignore
 import axiosInstance from "../../../utils/axiosInstance";
 
-import DeviationsTable from '../../../components/DeviationsTable/DeviationsTable';
 import SupervisorHeader from '../../../components/Headers/SupervisorHeader';
 import CreateWorkShiftModal from '../../../components/CreateWorkShiftModal/CreateWorkShiftModal';
 
@@ -11,26 +10,28 @@ import CreateWorkShiftModal from '../../../components/CreateWorkShiftModal/Creat
 interface ShiftData {
     id: number;
     startTime: string;
+    endTime: string;
     departmentName: string;
     operatorName: string;
-    status: string;
+    departmentId: number;
+    operatorId: number;
 }
 
 const SupervisorWorkpage = () => {
     const [isWorkShiftExist, setIsWorkShiftExist] = useState<boolean>(false);
     const [isWorkShiftModalOpen, setIsWorkShiftModalOpen] = useState<boolean>(false);
-    const [shiftData, setShiftData] = useState<ShiftData | null>(null);
+    const [shiftData, setShiftData] = useState<ShiftData>();
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    // Функция для получения данных о текущей смене
     const fetchCurrentShift = async () => {
         try {
             setIsLoading(true);
-            // Замените URL на ваш реальный эндпоинт для проверки активной смены
             const { data } = await axiosInstance.get<ShiftData>("/shifts");
             
-            if (data) {
-                setShiftData(data[0]);
+            // Если API возвращает массив, проверяем его длину
+            if (data && data.length !== 0) {
+                // Предполагаем, что берем первую активную смену из списка
+                setShiftData(data); 
                 setIsWorkShiftExist(true);
             } else {
                 setIsWorkShiftExist(false);
@@ -53,10 +54,27 @@ const SupervisorWorkpage = () => {
 
     const closeWorkShiftModal = () => {
         setIsWorkShiftModalOpen(false);
-        // После закрытия модалки и успешного создания смены 
-        // запрашиваем актуальные данные заново
         fetchCurrentShift();
     }
+
+    // Функция для завершения смены
+    const handleEndWorkShift = async () => {
+        if (!window.confirm("Вы уверены, что хотите завершить текущую смену?")) {
+            return;
+        }
+
+        try {
+            await axiosInstance.put(`/shifts/close/${shiftData?.id}`, {}); 
+            
+            alert("Смена успешно завершена");
+            setShiftData(undefined);
+            setIsWorkShiftExist(false);
+            fetchCurrentShift();
+        } catch (error) {
+            console.error("Ошибка при завершении смены:", error);
+            alert("Не удалось завершить смену");
+        }
+    };
 
     if (isLoading) {
         return <div className="loading-screen">Загрузка данных...</div>;
@@ -66,7 +84,6 @@ const SupervisorWorkpage = () => {
         <>
             <SupervisorHeader />
             <main className="supervisor-workpage-main">
-                {/* Блок создания смены, если она не существует */}
                 {!isWorkShiftExist && (
                     <div className="supervisor-workpage-no-shift">
                         <p>Смена ещё не создана. Хотите создать?</p>
@@ -76,7 +93,6 @@ const SupervisorWorkpage = () => {
                 
                 {isWorkShiftModalOpen && <CreateWorkShiftModal closeWorkShiftModal={closeWorkShiftModal} />}
 
-                {/* Блок информации отображается только если смена существует */}
                 {isWorkShiftExist && (
                     <>
                         <div className="supervisor-workpage-info">
@@ -86,12 +102,9 @@ const SupervisorWorkpage = () => {
                                     {shiftData ? new Date(shiftData.startTime).toLocaleDateString() : '—'}
                                 </p>
                                 <p className="supervisor-workpage-info-element--subtitle">
-                                    {shiftData ? new Date(shiftData.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '—'}
+                                    {shiftData ? new Date(shiftData.startTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) : '—'} 
+                                    {shiftData?.endTime ? ` - ${new Date(shiftData.endTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}` : ''}
                                 </p>
-                            </div>
-                            <div className="supervisor-workpage-info-element">
-                                <p className="supervisor-workpage-info-element--title">Состояние бланка</p>
-                                <p className="supervisor-workpage-info-element--value">{shiftData?.status || 'В работе'}</p>
                             </div>
                             <div className="supervisor-workpage-info-element">
                                 <p className="supervisor-workpage-info-element--title">Ответственный</p>
@@ -102,7 +115,16 @@ const SupervisorWorkpage = () => {
                                 <p className="supervisor-workpage-info-element--value">{shiftData?.departmentName || '—'}</p>
                             </div>
                         </div>
-                        <DeviationsTable />
+
+                        {/* Крупная кнопка завершения смены */}
+                        <div className="supervisor-workpage-actions">
+                            <button 
+                                className="supervisor-workpage-end-shift-button" 
+                                onClick={handleEndWorkShift}
+                            >
+                                Завершить смену
+                            </button>
+                        </div>
                     </>
                 )}
             </main>

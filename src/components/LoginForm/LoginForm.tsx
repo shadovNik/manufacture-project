@@ -32,8 +32,6 @@ const LoginForm = () => {
                 personalKey: password
             });
 
-            console.log(data);
-
             navigate('/login');
 
             localStorage.setItem("access_token", data.accessToken);

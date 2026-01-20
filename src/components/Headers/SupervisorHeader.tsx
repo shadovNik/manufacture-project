@@ -27,6 +27,7 @@ const SupervisorHeader = () => {
 
     const isActive = (path: string) => location.pathname === path;
     const isReportAddActive = location.pathname.startsWith('/supervisor-reportadd');
+    const isCheckActive = location.pathname.startsWith('/supervisor-check');
 
     const handleChoseModal = () => setIsChoseModalOpen(prev => !prev);
     const handleProfileModal = () => setIsProfileModalOpen(prev => !prev);
@@ -94,7 +95,7 @@ const SupervisorHeader = () => {
                     </p>
                     <Link 
                         to="/supervisor-check"
-                        className={`header-link ${isActive("/supervisor-check") ? "header-link--active" : ""}`}
+                        className={`header-link ${isCheckActive ? "header-link--active" : ""}`}
                     >
                         Проверка
                     </Link>

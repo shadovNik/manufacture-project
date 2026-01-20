@@ -1,0 +1,396 @@
+.admin-ref-page {
+    background-color: #f4f7f9;
+    min-height: 100vh;
+}
+
+.admin-ref-layout {
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+}
+
+.ref-module {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.ref-sidebar-left {
+    width: 250px;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.ref-sidebar-left h3 {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.ref-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ref-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+    color: #64748b;
+    transition: all 0.2s;
+}
+
+.ref-nav-item:hover {
+    background: #f1f5f9;
+}
+
+.ref-nav-item.active {
+    background: #e2e8f0;
+    color: #0056b3;
+    font-weight: 600;
+}
+
+/* Основной контейнер модуля */
+.ref-module-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 10px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Шапка контента */
+.ref-content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-left h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #334155;
+    margin: 0;
+}
+
+/* Кнопки в шапке */
+.export-btn, .add-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.export-btn {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+}
+
+.export-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.add-btn {
+    background: #7fb3d5; /* Цвет со скрина */
+    color: white;
+    border: none;
+    box-shadow: 0 4px 6px rgba(127, 179, 213, 0.3);
+}
+
+.add-btn:hover {
+    background: #6ca2c7;
+    transform: translateY(-1px);
+}
+
+/* Стили таблицы */
+.ref-table-wrapper {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    /* Убираем стандартную рамку, оставляем только разделение строк */
+}
+
+.ref-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.ref-table th {
+    background-color: #f1f5f9; /* Светлый фон заголовков */
+    color: #475569;
+    font-weight: 600;
+    text-align: left;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.ref-table td {
+    padding: 18px 20px;
+    color: #1e293b;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+.ref-table tr:hover {
+    background-color: #f8fafc; /* Эффект наведения на строку */
+}
+
+/* Специальные стили колонок */
+.code-cell {
+    font-family: 'JetBrains Mono', monospace; /* Или системный моноширинный */
+    color: #64748b;
+    font-weight: 500;
+}
+
+.name-cell {
+    font-weight: 500;
+    color: #0f172a;
+}
+
+.desc-cell {
+    color: #94a3b8;
+    font-size: 13px;
+    max-width: 250px;
+}
+
+/* Кнопки действий (иконки в кружочках) */
+.actions-cell {
+    display: flex;
+    gap: 8px;
+}
+
+.edit-btn, .delete-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.edit-btn { color: #3b82f6; } /* Синий */
+.edit-btn:hover { 
+    background: #eff6ff;
+    border-color: #3b82f6;
+}
+
+.delete-btn { color: #ef4444; } /* Красный */
+.delete-btn:hover { 
+    background: #fef2f2;
+    border-color: #ef4444;
+}
+
+/* Пагинация (как на скрине) */
+.ref-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 30px;
+    padding: 10px;
+}
+
+.ref-pagination button {
+    background: white;
+    border: 1px solid #e2e8f0;
+    padding: 8px 16px;
+    border-radius: 8px;
+    color: #475569;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s;
+}
+
+.ref-pagination button:hover:not(:disabled) {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.ref-pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.current-page {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    border-radius: 6px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.product-ref-wrapper {
+    display: flex;
+    height: 100%;
+    gap: 20px;
+    overflow: hidden;
+}
+
+/* Секция таблицы */
+.ref-main-content {
+    flex: 1; /* Занимает всё свободное место */
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 0; /* Важно для корректного сжатия таблиц */
+}
+
+/* Когда открыт сайдбар, можно дополнительно стилизовать таблицу (например, скрыть описание) */
+.ref-main-content.with-sidebar .desc-cell {
+    max-width: 150px;
+}
+
+.ref-table-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+}
+
+.ref-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.ref-table th {
+    background: #f8fafc;
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    color: #64748b;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.ref-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+/* САЙДБАР СПРАВА */
+.ref-sidebar-right {
+    width: 400px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    box-shadow: -10px 0 20px rgba(0, 0, 0, 0.02);
+    display: flex;
+    flex-direction: column;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+}
+
+.form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #94a3b8;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background: #f8fafc;
+    font-size: 14px;
+    outline: none;
+}
+
+.form-group input:focus { border-color: #7fb3d5; }
+
+.sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid #f1f5f9;
+    display: flex;
+    gap: 12px;
+}
+
+.btn-save {
+    flex: 1;
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-cancel {
+    padding: 12px 20px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    color: #64748b;
+    cursor: pointer;
+}

@@ -23,11 +23,10 @@ const CreateWorkShiftModal = ({ closeWorkShiftModal }: CreateWorkShiftModalProps
     const [operators, setOperators] = useState<Operator[]>([]);
     const [isOperatorsLoading, setIsOperatorsLoading] = useState(false);
 
-    const [startTime, setStartTime] = useState('');
+    const [shiftType, setShiftType] = useState('');
     const [departmentId, setDepartmentId] = useState<number | string>('');
     const [operatorId, setOperatorId] = useState<number | string>('');
 
-    // 1. Первичная загрузка: только список цехов
     useEffect(() => {
         const fetchDepartments = async () => {
             try {
@@ -40,10 +39,8 @@ const CreateWorkShiftModal = ({ closeWorkShiftModal }: CreateWorkShiftModalProps
         fetchDepartments();
     }, []);
 
-    // 2. Загрузка операторов при изменении departmentId
     useEffect(() => {
         const fetchOperators = async () => {
-            // Если цех не выбран, очищаем список операторов и ID
             if (!departmentId) {
                 setOperators([]);
                 setOperatorId('');
@@ -52,9 +49,8 @@ const CreateWorkShiftModal = ({ closeWorkShiftModal }: CreateWorkShiftModalProps
 
             try {
                 setIsOperatorsLoading(true);
-                setOperatorId(''); // Сбрасываем выбранного оператора при смене цеха
+                setOperatorId('');
                 
-                // Используем динамический URL с ID выбранного цеха
                 const res = await axiosInstance.get(`/users/${departmentId}`);
                 setOperators(res.data);
             } catch (error) {
@@ -66,31 +62,19 @@ const CreateWorkShiftModal = ({ closeWorkShiftModal }: CreateWorkShiftModalProps
         };
 
         fetchOperators();
-    }, [departmentId]); // Следим за изменением departmentId
+    }, [departmentId]);
 
     const submitCreateWorkShift = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!startTime || !departmentId || !operatorId) {
+        if (!shiftType || !departmentId || !operatorId) {
             alert("Пожалуйста, заполните все поля");
             return;
         }
 
-        // 1. Извлекаем часы и минуты из строки "HH:mm"
-        const [hours, minutes] = startTime.split(':').map(Number);
-
-        // 2. Создаем объект даты на текущий момент
-        const dateWithTime = new Date();
-
-        // 3. Устанавливаем выбранное время (секунды и миллисекунды можно оставить текущими или обнулить)
-        dateWithTime.setHours(hours);
-        dateWithTime.setMinutes(minutes);
-        // dateWithTime.setSeconds(0); // Опционально: обнуление секунд
-        // dateWithTime.setMilliseconds(0); // Опционально: обнуление миллисекунд
-
         try {
             const payload = {
-                startTime: dateWithTime.toISOString(),
+                shiftType: shiftType,
                 departmentId: Number(departmentId),
                 operatorId: Number(operatorId)
             };
@@ -111,14 +95,17 @@ const CreateWorkShiftModal = ({ closeWorkShiftModal }: CreateWorkShiftModalProps
                 <form className="create-work-shift-modal-form" onSubmit={submitCreateWorkShift}>
                     
                     <label className="create-work-shift-modal-label">
-                        Время начала смены:&nbsp;
-                        <input 
-                            type="time" 
-                            className="create-work-shift-modal-input" 
-                            value={startTime}
-                            onChange={(e) => setStartTime(e.target.value)}
+                        Тип смены:&nbsp;
+                        <select 
+                            className="create-work-shift-modal-input"
+                            value={shiftType}
+                            onChange={(e) => setShiftType(e.target.value)}
                             required
-                        />
+                        >
+                            <option value="">Выберите тип смены...</option>
+                            <option value="Дневная">Дневная</option>
+                            <option value="Вечерняя">Вечерняя</option>
+                        </select>
                     </label>
 
                     <label className="create-work-shift-modal-label">
@@ -142,7 +129,7 @@ const CreateWorkShiftModal = ({ closeWorkShiftModal }: CreateWorkShiftModalProps
                             className="create-work-shift-modal-input"
                             value={operatorId}
                             onChange={(e) => setOperatorId(e.target.value)}
-                            disabled={!departmentId || isOperatorsLoading} // Блокируем, пока не выбран цех или идет загрузка
+                            disabled={!departmentId || isOperatorsLoading}
                             required
                         >
                             <option value="">

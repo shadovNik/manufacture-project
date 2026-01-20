@@ -1,8 +1,11 @@
-// TactAnalysisTable.tsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './TactAnalysisTable.css';
+// @ts-ignore
+import axiosInstance from "../../../utils/axiosInstance";
+import { useNavigate } from 'react-router-dom';
 
 export interface TableRowData {
+    rowId?: number;
     timeRange: string;
     isBreak: boolean;
     plan: number;
@@ -13,38 +16,89 @@ export interface TableRowData {
     cumulativeDeviation: number;
     downtimeMin: number;
     responsible: string;
+    responsibleUserId?: number; // Храним ID для отправки
     reasonGroup: string;
     reasonComment: string;
     measures: string;
 }
 
-interface Props {
-    data: TableRowData[];
-    setData: React.Dispatch<React.SetStateAction<TableRowData[]>>;
-    headerInfo: any;
+interface ReasonGroup {
+    id: number;
+    name: string;
 }
 
-const TactAnalysisTable: React.FC<Props> = ({ data, setData, headerInfo }) => {
+interface ShiftUser {
+    id: number;
+    firstName: string;
+    lastName: string;
+}
 
-    const handleFactChange = (index: number, value: number) => {
-        const newData = [...data];
-        newData[index].fact = value;
-
-        // Пересчет всей таблицы от места изменения до конца
-        let runningFact = 0;
-        let runningDeviation = 0;
-
-        newData.forEach((row) => {
-            runningFact += row.fact;
-            row.cumulativeFact = runningFact;
-            
-            row.deviation = row.plan - row.fact; //
-            runningDeviation += row.deviation;
-            row.cumulativeDeviation = runningDeviation;
-        });
-
-        setData(newData);
+interface Props {
+    tableId: string | number;
+    data: TableRowData[];
+    setData: React.Dispatch<React.SetStateAction<TableRowData[]>>;
+    headerInfo: {
+        divisionId: number;
+        product: string;
+        division: string;
+        executor: string;
+        tactTimeSec: number;
+        dailyRate: number;
     };
+    isOperatorPage?: boolean;
+    isReviewPage?: boolean;
+}
+
+const TactAnalysisTable: React.FC<Props> = ({ tableId, data, setData, headerInfo, isOperatorPage = false, isReviewPage = false }) => {
+    const [reasonGroups, setReasonGroups] = useState<ReasonGroup[]>([]);
+    const [shiftUsers, setShiftUsers] = useState<ShiftUser[]>([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            // Проверяем, что ID цеха пришел в headerInfo
+            if (!headerInfo?.divisionId) return;
+            
+            try {
+                const res = await axiosInstance.get(`/users/${headerInfo.divisionId}`);
+                setShiftUsers(res.data);
+            } catch (error) {
+                console.error("Ошибка загрузки пользователей цеха:", error);
+            }
+        };
+        fetchUsers();
+    }, [headerInfo?.divisionId]);
+
+    // 1. Загрузка групп причин
+    useEffect(() => {
+        const fetchReasonGroups = async () => {
+            try {
+                const res = await axiosInstance.get('/dictionaries/ReasonGroup?page=1');
+                setReasonGroups(res.data);
+            } catch (error) {
+                console.error("Ошибка при загрузке групп причин:", error);
+            }
+        };
+        fetchReasonGroups();
+    }, []);
+
+    // 2. Загрузка пользователей по departmentId
+    useEffect(() => {
+        const fetchUsersByDepartment = async () => {
+            if (!headerInfo.divisionId) return;
+
+            try {
+                // Используем адрес: /users/{departmentId}
+                const res = await axiosInstance.get(`/users/${headerInfo.divisionId}`);
+                setShiftUsers(res.data);
+            } catch (error) {
+                console.error("Ошибка при загрузке пользователей подразделения:", error);
+            }
+        };
+        fetchUsersByDepartment();
+    }, [headerInfo.divisionId]);
 
     const handleInputChange = (index: number, field: keyof TableRowData, value: any) => {
         const newData = [...data];
@@ -52,8 +106,118 @@ const TactAnalysisTable: React.FC<Props> = ({ data, setData, headerInfo }) => {
         setData(newData);
     };
 
+    // Хендлер для селекта ответственного
+    const handleResponsibleChange = (index: number, userId: number) => {
+        const selectedUser = shiftUsers.find(u => u.id === userId);
+        const newData = [...data];
+        
+        newData[index].responsibleUserId = userId;
+        // Сохраняем имя текстом для отображения, если нужно
+        newData[index].responsible = selectedUser 
+            ? `${selectedUser.lastName} ${selectedUser.firstName}` 
+            : '';
+            
+        setData(newData);
+    };
+
+    const handleFactChange = (index: number, value: number) => {
+        const newData = [...data];
+        newData[index].fact = value;
+        let runningFact = 0;
+        let runningDeviation = 0;
+
+        newData.forEach((row) => {
+            runningFact += row.fact;
+            row.cumulativeFact = runningFact;
+            row.deviation = row.plan - row.fact;
+            runningDeviation += row.deviation;
+            row.cumulativeDeviation = runningDeviation;
+        });
+        setData(newData);
+    };
+
+    const handleSave = async () => {
+        setIsSubmitting(true);
+        try {
+            const payload = {
+                tableId: String(tableId),
+                rows: data
+                    .filter(row => !row.isBreak && row.rowId)
+                    .map(row => {
+                        const group = reasonGroups.find(g => g.name === row.reasonGroup);
+                        return {
+                            rowId: row.rowId,
+                            factQTY: row.fact,
+                            downtimeMinutes: row.downtimeMin,
+                            reasonGroupId: group ? group.id : 0,
+                            responsibleUserId: row.responsibleUserId || 0,
+                            comment: row.reasonComment,
+                            takenMeasures: row.measures
+                        };
+                    })
+            };
+
+            await axiosInstance.post(`/PowerPerHourTable/fill/${tableId}`, payload);
+            alert(isOperatorPage ? "Изменения сохранены" : "Данные успешно отправлены!");
+        } catch (error) {
+            console.error("Ошибка сохранения:", error);
+            alert("Ошибка при сохранении данных.");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    const handleReject = async () => {
+        if (!window.confirm("Вернуть таблицу оператору на доработку?")) return;
+        setIsSubmitting(true);
+        try {
+            // Предполагаем эндпоинт смены статуса (замените на ваш актуальный)
+            await axiosInstance.put(`/PowerPerHourTable/update/status/${tableId}?status=На доработке`);
+            alert("Отправлено на доработку");
+            navigate('/supervisor-check'); // Возврат к списку
+        } catch (error) {
+            alert("Ошибка при смене статуса");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+    const handleApprove = async () => {
+        if (!window.confirm("Принять таблицу? После этого редактирование будет закрыто.")) return;
+        setIsSubmitting(true);
+        try {
+            await axiosInstance.put(`/PowerPerHourTable/update/status/${tableId}?status=Принято`);
+            alert("Таблица принята");
+            navigate('/supervisor-check');
+        } catch (error) {
+            alert("Ошибка при одобрении");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
+// 2. Функция для отправки на проверку (только для оператора)
+    const handleSendToReview = async () => {
+        // Сначала сохраняем текущие данные
+        await handleSave();
+
+        if (!window.confirm("Вы уверены? После отправки редактирование будет заблокировано.")) return;
+
+        setIsSubmitting(true);
+        try {
+            await axiosInstance.put(`/PowerPerHourTable/update/status/${tableId}?status=На проверке`);
+            alert("Таблица отправлена на проверку!");
+        } catch (error) {
+            console.error("Ошибка отправки:", error);
+            alert("Не удалось отправить на проверку.");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
         <div className="table-container">
+            {/* Header Info Block */}
             <div className="table-header-info">
                 <p>Продукт: <strong>{headerInfo.product}</strong></p>
                 <p>Цех: <strong>{headerInfo.division}</strong></p>
@@ -61,6 +225,7 @@ const TactAnalysisTable: React.FC<Props> = ({ data, setData, headerInfo }) => {
                 <p>Время такта: <strong>{headerInfo.tactTimeSec} сек.</strong></p>
                 <p>Суточный темп: <strong>{headerInfo.dailyRate} шт.</strong></p>
             </div>
+
             <table className="analysis-table">
                 <thead>
                     <tr>
@@ -84,39 +249,107 @@ const TactAnalysisTable: React.FC<Props> = ({ data, setData, headerInfo }) => {
                             <td>{row.plan}</td>
                             <td>{row.cumulativePlan}</td>
                             <td>
-                                {!row.isBreak && <input title='Факт' type="number" value={row.fact} onChange={(e) => handleFactChange(idx, Number(e.target.value))} />}
+                                {!row.isBreak && (
+                                    <input
+                                        title="Факт, шт." 
+                                        type="number" 
+                                        value={row.fact} 
+                                        onChange={(e) => handleFactChange(idx, Number(e.target.value))} 
+                                    />
+                                )}
                             </td>
                             <td>{row.cumulativeFact}</td>
                             <td>{row.deviation}</td>
                             <td>{row.cumulativeDeviation}</td>
-                            <td><input title='Простой' type="number" value={row.downtimeMin} onChange={(e) => handleInputChange(idx, 'downtimeMin', Number(e.target.value))} /></td>
-                            <td><input title='Описание причины' type="text" value={row.responsible} onChange={(e) => handleInputChange(idx, 'responsible', e.target.value)} /></td>
                             <td>
-                                <select title='Группы причин' value={row.reasonGroup} onChange={(e) => handleInputChange(idx, 'reasonGroup', e.target.value)}>
+                                <input
+                                    title="Простой, мин" 
+                                    type="number" 
+                                    value={row.downtimeMin} 
+                                    onChange={(e) => handleInputChange(idx, 'downtimeMin', Number(e.target.value))} 
+                                />
+                            </td>
+                            <td>
+                                {!row.isBreak && (
+                                    <select 
+                                        className="table-select"
+                                        title="Выберите ответственного"
+                                        value={row.responsibleUserId || ""} 
+                                        onChange={(e) => handleResponsibleChange(idx, Number(e.target.value))}
+                                    >
+                                        <option value="">Выбор...</option>
+                                        {shiftUsers.map((user) => (
+                                            <option key={user.id} value={user.id}>
+                                                {user.lastName} {user.firstName}
+                                            </option>
+                                        ))}
+                                    </select>
+                                )}
+                            </td>
+                            <td>
+                                <select
+                                    title="Группа причин" 
+                                    value={row.reasonGroup} 
+                                    onChange={(e) => handleInputChange(idx, 'reasonGroup', e.target.value)}
+                                >
                                     <option value="">Выбор...</option>
-                                    <option value="Орг.">Орг.</option>
-                                    <option value="Тех.">Тех.</option>
-                                    <option value="Лог.">Лог.</option>
-                                    <option value="Рег.">Рег.</option>
-                                    <option value="Кач.">Кач.</option>
-                                    <option value="Восп.">Восп.</option>
+                                    {reasonGroups.map((group) => (
+                                        <option key={group.id} value={group.name}>{group.name}</option>
+                                    ))}
                                 </select>
                             </td>
-                            <td><input type="text" placeholder="Причина" value={row.reasonComment} onChange={(e) => handleInputChange(idx, 'reasonComment', e.target.value)} /></td>
-                            <td><input type="text" placeholder="Меры" value={row.measures} onChange={(e) => handleInputChange(idx, 'measures', e.target.value)} /></td>
+                            <td>
+                                <input 
+                                    type="text" 
+                                    placeholder="Причина" 
+                                    value={row.reasonComment} 
+                                    onChange={(e) => handleInputChange(idx, 'reasonComment', e.target.value)} 
+                                />
+                            </td>
+                            <td>
+                                <input 
+                                    type="text" 
+                                    placeholder="Меры" 
+                                    value={row.measures} 
+                                    onChange={(e) => handleInputChange(idx, 'measures', e.target.value)} 
+                                />
+                            </td>
                         </tr>
                     ))}
-                    <tr className="total-row">
-                        <td>ИТОГО</td>
-                        <td>{data.reduce((acc, r) => acc + r.plan, 0)}</td>
-                        <td>-</td>
-                        <td>{data.reduce((acc, r) => acc + r.fact, 0)}</td>
-                        <td>-</td>
-                        <td>{data.reduce((acc, r) => acc + r.deviation, 0)}</td>
-                        <td colSpan={5}></td>
-                    </tr>
                 </tbody>
             </table>
+
+            <div className="table-actions">
+                {isReviewPage ? (
+                    // КНОПКИ ДЛЯ СТРАНИЦЫ ПРОВЕРКИ (Супервайзер)
+                    <>
+                        <button className="save-table-button" onClick={handleSave} disabled={isSubmitting}>
+                            Сохранить
+                        </button>
+                        <button className="reject-table-button" onClick={handleReject} disabled={isSubmitting}>
+                            Отправить на доработку
+                        </button>
+                        <button className="approve-table-button" onClick={handleApprove} disabled={isSubmitting}>
+                            Принять
+                        </button>
+                    </>
+                ) : isOperatorPage ? (
+                    // КНОПКИ ДЛЯ ОПЕРАТОРА (как было раньше)
+                    <>
+                        <button className="save-table-button" onClick={handleSave} disabled={isSubmitting}>
+                            Сохранить таблицу
+                        </button>
+                        <button className="submit-to-review-button" onClick={handleSendToReview} disabled={isSubmitting}>
+                            Отправить на проверку
+                        </button>
+                    </>
+                ) : (
+                    // КНОПКА ПРИ СОЗДАНИИ (Супервайзер)
+                    <button className="submit-to-operator-button" onClick={handleSave} disabled={isSubmitting}>
+                        Отправить таблицу оператору
+                    </button>
+                )}
+            </div>
         </div>
     );
 };

@@ -25,6 +25,7 @@ const OperatorHeader = () => {
     const handleProfileModal = () => setIsProfileModalOpen(prev => !prev);
     
     const isActive = (path: string) => location.pathname === path;
+    const isReportFillActive = location.pathname.startsWith('/operator-report');
 
     const handleLogout = async () => {
         try {
@@ -78,7 +79,7 @@ const OperatorHeader = () => {
                     </Link>
                     <Link 
                         to="/operator-report"
-                        className={`header-link ${isActive("/operator-report") ? "header-link--active" : ""}`}
+                        className={`header-link ${isReportFillActive ? "header-link--active" : ""}`}
                     >
                         Заполнение ПА
                     </Link>

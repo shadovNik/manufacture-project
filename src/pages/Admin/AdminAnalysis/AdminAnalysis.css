@@ -1,0 +1,16 @@
+.admin-analysis-page {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+.admin-analysis-page h1 {
+    font-size: 2rem;
+    color: #333;
+}
+.admin-analysis-page p {
+    font-size: 1.2rem;
+    color: #666;
+}
