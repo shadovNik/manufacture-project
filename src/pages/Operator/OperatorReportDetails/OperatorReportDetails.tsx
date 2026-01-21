@@ -22,12 +22,11 @@ const SCHEDULE_TEMPLATE = [
 ];
 
 const OperatorReportDetails = () => {
-    const { id } = useParams<{ id: string }>(); // Получаем ID анализа из URL
+    const { id } = useParams<{ id: string }>();
     const [tableData, setTableData] = useState<TableRowData[]>([]);
     const [headerInfo, setHeaderInfo] = useState<any>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Функция маппинга (вставляем рабочие строки сервера в наш шаблон с перерывами)
     const mapServerRows = useCallback((serverRows: any[]) => {
         let workRowIndex = 0;
         return SCHEDULE_TEMPLATE.map((slot) => {
@@ -51,7 +50,7 @@ const OperatorReportDetails = () => {
             const row = serverRows[workRowIndex];
             workRowIndex++;
             return {
-                rowId: row?.rowId, // Обязательно сохраняем для последующей отправки (fill)
+                rowId: row?.rowId,
                 timeRange: slot.time,
                 isBreak: false,
                 plan: row?.planQTY || 0,
@@ -88,7 +87,6 @@ const OperatorReportDetails = () => {
                         dailyRate: data.dailyTarget
                     });
 
-                    // В маппинге строк важно прокинуть responsibleUserId
                     const rows = mapServerRows(data.rows);
                     setTableData(rows);
                 }

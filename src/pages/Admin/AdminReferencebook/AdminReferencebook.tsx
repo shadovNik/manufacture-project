@@ -3,7 +3,6 @@ import AdminHeader from '../../../components/Headers/AdminHeader';
 import './AdminReferencebook.css';
 
 const AdminReferencebook = () => {
-    // Список справочников для рендера ссылок
     const dictionaryLinks = [
         { path: 'products', label: 'Продукция' },
         { path: 'departments', label: 'Подразделения' },

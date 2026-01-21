@@ -64,7 +64,6 @@ const ProductReference = () => {
 
     return (
         <div className="product-ref-wrapper">
-            {/* Основная секция с таблицей */}
             <section className={`ref-main-content ${isSidebarOpen ? 'with-sidebar' : ''}`}>
                 <div className="ref-content-header">
                     <div className="header-left">
@@ -108,7 +107,6 @@ const ProductReference = () => {
                 </div>
             </section>
 
-            {/* Правый сайдбар */}
             {isSidebarOpen && (
                 <aside className="ref-sidebar-right">
                     <div className="sidebar-header">

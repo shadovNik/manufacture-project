@@ -21,7 +21,6 @@ const OperatorReport = () => {
         const fetchReports = async () => {
             try {
                 setIsLoading(true);
-                // Запрос списка доступных анализов
                 const { data } = await axiosInstance.get<ReportItem[]>("/PowerPerHourTable/operatorPA");
                 setReports(data);
             } catch (error) {
@@ -35,7 +34,6 @@ const OperatorReport = () => {
     }, []);
 
     const handleCardClick = (id: number) => {
-        // Переход на страницу конкретного отчета
         navigate(`/operator-report/${id}`);
     };
 

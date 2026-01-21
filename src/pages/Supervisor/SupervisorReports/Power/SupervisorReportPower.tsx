@@ -19,11 +19,9 @@ const getTodayDate = () => {
 };
 
 const SupervisorReportPower = () => {
-    // Данные для селектов из БД
     const [divisions, setDivisions] = useState<DictionaryItem[]>([]);
     const [executors, setExecutors] = useState<DictionaryItem[]>([]);
 
-    // Общие поля (храним ID для подразделения и исполнителя)
     const [shift, setShift] = useState('Дневная');
     const [division, setDivision] = useState<number | string>('');
     const [executor, setExecutor] = useState<number | string>('');
@@ -31,24 +29,19 @@ const SupervisorReportPower = () => {
     const [startTime, setStartTime] = useState('08:00');
     const [endTime, setEndTime] = useState('16:00');
 
-    // Специфичные поля для анализа по мощности
     const [product, setProduct] = useState('Продукт А');
     const [workplacePower, setWorkplacePower] = useState<number | ''>(''); 
     const [dailyRate, setDailyRate] = useState<number | ''>('');
 
-    // Состояние таблицы
     const [tableData, setTableData] = useState<PowerTableRowData[]>([]);
     const [showTable, setShowTable] = useState(false);
 
-    // 1. Загрузка справочника подразделений и данных активной смены
     useEffect(() => {
         const loadInitialData = async () => {
             try {
-                // Загружаем список цехов
                 const deptRes = await axiosInstance.get('/dictionaries/Department?page=1');
                 setDivisions(deptRes.data);
 
-                // Получаем текущую смену для автозаполнения
                 const shiftRes = await axiosInstance.get('/shifts');
                 if (shiftRes.data && shiftRes.data.length > 0) {
                     const activeShift = shiftRes.data[0];
@@ -67,7 +60,6 @@ const SupervisorReportPower = () => {
         loadInitialData();
     }, []);
 
-    // 2. Загрузка исполнителей при изменении выбранного подразделения
     useEffect(() => {
         const fetchExecutors = async () => {
             if (!division) {
@@ -90,7 +82,6 @@ const SupervisorReportPower = () => {
     }, [division]);
 
     const generateTable = () => {
-        // Проверка обязательных полей (включая специфичные для мощности)
         if (!dailyRate || !date || !division || !executor || !workplacePower) {
             alert("Пожалуйста, заполните все поля, включая мощность и исполнителя.");
             return;
@@ -192,7 +183,6 @@ const SupervisorReportPower = () => {
                 setData={setTableData}
                 headerInfo={{ 
                     product, 
-                    // Поиск названия по ID для шапки таблицы
                     division: divisions.find(d => d.id === Number(division))?.name || '', 
                     executor: executors.find(e => e.id === Number(executor))?.name || '', 
                     workplacePower, 

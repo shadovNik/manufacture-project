@@ -20,11 +20,9 @@ const getTodayDate = () => {
 };
 
 const SupervisorReportNomenclatures = () => {
-    // Данные для селектов из БД
     const [divisions, setDivisions] = useState<DictionaryItem[]>([]);
     const [executors, setExecutors] = useState<DictionaryItem[]>([]);
 
-    // Общие поля (ID для подразделения и исполнителя)
     const [shift, setShift] = useState('Дневная');
     const [division, setDivision] = useState<number | string>('');
     const [executor, setExecutor] = useState<number | string>('');
@@ -32,7 +30,6 @@ const SupervisorReportNomenclatures = () => {
     const [startTime, setStartTime] = useState('08:00');
     const [endTime, setEndTime] = useState('20:00');
 
-    // Состояние для блока номенклатуры
     const [nomenclatures, setNomenclatures] = useState<ProductNom[]>([
         { id: Date.now(), name: 'Втулка', cycleTime: 240, dailyRate: 150 }
     ]);
@@ -40,7 +37,6 @@ const SupervisorReportNomenclatures = () => {
     const [tableData, setTableData] = useState<NomTableRowData[]>([]);
     const [showTable, setShowTable] = useState(false);
 
-    // 1. Первичная загрузка справочника подразделений и данных активной смены
     useEffect(() => {
         const loadInitialData = async () => {
             try {
@@ -65,7 +61,6 @@ const SupervisorReportNomenclatures = () => {
         loadInitialData();
     }, []);
 
-    // 2. Загрузка операторов при изменении выбранного подразделения
     useEffect(() => {
         const fetchExecutors = async () => {
             if (!division) {

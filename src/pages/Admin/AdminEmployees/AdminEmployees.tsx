@@ -27,12 +27,10 @@ const AdminEmployees = () => {
 
     const [createdCredentials, setCreatedCredentials] = useState<{ email: string, personalKey: string } | null>(null);
     
-    // Состояния для пагинации
     const [currentPage, setCurrentPage] = useState(1);
     const [totalCount, setTotalCount] = useState(0);
     const pageSize = 10;
 
-    // Состояние сайдбара и формы
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [selectedEmployee, setSelectedEmployee] = useState<Partial<Employee> | null>(null);
 
@@ -75,7 +73,6 @@ const AdminEmployees = () => {
                 setIsSidebarOpen(false);
             } else {
                 const { data } = await axiosInstance.post('/dictionaries/User/create', selectedEmployee);
-                // Если сервер вернул personalKey, показываем его
                 if (data && data.personalKey) {
                     setCreatedCredentials({
                         email: data.email || selectedEmployee?.email || '',

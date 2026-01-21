@@ -29,7 +29,6 @@ interface Props {
 
 const NomenclaturesAnalysisTable: React.FC<Props> = ({ data, setData }) => {
     
-    // Функция для расчета объединения ячеек (rowSpan)
     const rowSpans = useMemo(() => {
         const spans: number[] = [];
         let i = 0;
@@ -38,9 +37,9 @@ const NomenclaturesAnalysisTable: React.FC<Props> = ({ data, setData }) => {
             while (i + count < data.length && data[i + count].productName === data[i].productName) {
                 count++;
             }
-            spans[i] = count; // Записываем количество строк для первой ячейки блока
+            spans[i] = count;
             for (let j = 1; j < count; j++) {
-                spans[i + j] = 0; // Остальные помечаем как 0 (не рендерим)
+                spans[i + j] = 0;
             }
             i += count;
         }
@@ -82,7 +81,6 @@ const NomenclaturesAnalysisTable: React.FC<Props> = ({ data, setData }) => {
                 <tbody>
                     {data.map((row, idx) => (
                         <tr key={row.id} className={row.isChangeover ? 'changeover-row' : ''}>
-                            {/* Объединяем ячейки по вертикали для названия изделия */}
                             {rowSpans[idx] > 0 && (
                                 <td 
                                     className="product-label-cell" 

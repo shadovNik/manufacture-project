@@ -12,15 +12,12 @@ const ReasonGroupsReference = () => {
     const [groups, setGroups] = useState<ReasonGroup[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     
-    // Пагинация
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 10;
 
-    // Состояние сайдбара
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [selectedGroup, setSelectedGroup] = useState<Partial<ReasonGroup> | null>(null);
 
-    // Загрузка данных
     const fetchGroups = useCallback(async () => {
         setIsLoading(true);
         try {

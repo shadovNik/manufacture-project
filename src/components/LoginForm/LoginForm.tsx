@@ -69,20 +69,6 @@ const LoginForm = () => {
             console.log(err);
         }
     };
-
-    // const handleFakeSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    //   e.preventDefault();
-    //   if (login === "1") {
-    //     navigate('/operator-workpage');
-    //   }
-    //   else if (login === "2") {
-    //     navigate('/supervisor-workpage');
-    //   }
-    //   else {
-    //     navigate('/admin-workpage');
-    //     setError('123');
-    //   }
-    // }
     
     return (
       <form className="form" onSubmit={handleSubmit}>

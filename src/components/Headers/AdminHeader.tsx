@@ -39,7 +39,6 @@ const AdminHeader = () => {
         }
     };
 
-    // Закрытие модалки при клике вне её области
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (isProfileModalOpen && profileModalRef.current && !profileModalRef.current.contains(event.target as Node)) {
@@ -51,7 +50,6 @@ const AdminHeader = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [isProfileModalOpen]);
 
-    // Получение данных админа при монтировании
     useEffect(() => {
         const getAdminData = async () => {
             const userId = localStorage.getItem("user_id");

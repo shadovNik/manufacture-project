@@ -20,13 +20,11 @@ const OperatorWorkpage = () => {
     const [shiftData, setShiftData] = useState<ShiftData | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    // Логика получения смены как у супервайзера
     const fetchCurrentShift = async () => {
         try {
             setIsLoading(true);
             const { data } = await axiosInstance.get("/shifts");
             
-            // Проверка на массив или объект (зависит от вашего API)
             const activeShift = Array.isArray(data) ? data[0] : data;
 
             if (activeShift && activeShift.id) {
@@ -66,7 +64,6 @@ const OperatorWorkpage = () => {
                 ) : (
                     <>
                         <div className="operator-workpage-info">
-                            {/* Блок 1: Текущая смена */}
                             <div className="operator-workpage-info-element shift-info">
                                 <p className="operator-workpage-info-element--title">Текущая смена</p>
                                 <p className="operator-workpage-info-element--value">
@@ -78,7 +75,6 @@ const OperatorWorkpage = () => {
                                 </p>
                             </div>
 
-                            {/* Блок 3: Отклонения */}
                             <div className="operator-workpage-info-element deviations-info">
                                 <p className="operator-workpage-info-element--title">Отклонения от плана</p>
                                 <p className="operator-workpage-info-element--value">Всего: </p>

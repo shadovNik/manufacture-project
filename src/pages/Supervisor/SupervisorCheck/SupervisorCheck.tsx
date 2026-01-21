@@ -21,12 +21,10 @@ const SupervisorCheck = () => {
         const fetchReports = async () => {
             try {
                 setIsLoading(true);
-                // Запрос списка доступных анализов
                 const { data } = await axiosInstance.get<ReportItem[]>("/PowerPerHourTable/supervisorPA");
 
                 console.log("Все отчеты:", data);
                 
-                // Фильтруем данные: оставляем только те, где статус равен "На проверке"
                 const filteredReports = data.filter((report: { status: string; }) => report.status === "На проверке");
                 
                 setReports(filteredReports);
@@ -41,7 +39,6 @@ const SupervisorCheck = () => {
     }, []);
 
     const handleCardClick = (id: number) => {
-        // Переход на страницу конкретного отчета
         navigate(`/supervisor-check/${id}`);
     };
 

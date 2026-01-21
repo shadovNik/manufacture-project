@@ -6,7 +6,6 @@ import axiosInstance from "../../../utils/axiosInstance";
 import SupervisorHeader from '../../../components/Headers/SupervisorHeader';
 import CreateWorkShiftModal from '../../../components/CreateWorkShiftModal/CreateWorkShiftModal';
 
-// Типизация данных смены
 interface ShiftData {
     id: number;
     startTime: string;
@@ -28,9 +27,7 @@ const SupervisorWorkpage = () => {
             setIsLoading(true);
             const { data } = await axiosInstance.get<ShiftData>("/shifts");
             
-            // Если API возвращает массив, проверяем его длину
             if (data && data.length !== 0) {
-                // Предполагаем, что берем первую активную смену из списка
                 setShiftData(data); 
                 setIsWorkShiftExist(true);
             } else {
@@ -57,7 +54,6 @@ const SupervisorWorkpage = () => {
         fetchCurrentShift();
     }
 
-    // Функция для завершения смены
     const handleEndWorkShift = async () => {
         if (!window.confirm("Вы уверены, что хотите завершить текущую смену?")) {
             return;
@@ -116,7 +112,6 @@ const SupervisorWorkpage = () => {
                             </div>
                         </div>
 
-                        {/* Крупная кнопка завершения смены */}
                         <div className="supervisor-workpage-actions">
                             <button 
                                 className="supervisor-workpage-end-shift-button" 

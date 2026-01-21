@@ -14,7 +14,7 @@ interface BaseAnalysisProps {
     onGenerate: () => void;
     divisions: DictionaryItem[];
     executors: DictionaryItem[];
-    isGenerateDisabled?: boolean; // Новый проп для блокировки кнопки
+    isGenerateDisabled?: boolean;
 
     commonState: {
         shift: string;
@@ -42,7 +42,7 @@ const SupervisorAnalysisComponent: React.FC<BaseAnalysisProps> = ({
     commonState,
     divisions,
     executors,
-    isGenerateDisabled, // Деструктурируем
+    isGenerateDisabled,
     additionalMainInfo,
     additionalBlocks
 }) => {

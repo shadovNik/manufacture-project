@@ -12,15 +12,12 @@ const DepartmentReference = () => {
     const [departments, setDepartments] = useState<Department[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     
-    // Пагинация
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 10;
 
-    // Состояние сайдбара
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [selectedDept, setSelectedDept] = useState<Partial<Department> | null>(null);
 
-    // Загрузка данных
     const fetchDepartments = useCallback(async () => {
         setIsLoading(true);
         try {

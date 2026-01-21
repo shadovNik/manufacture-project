@@ -59,7 +59,7 @@ const SupervisorReportTactDuration = () => {
     const [tableData, setTableData] = useState<TableRowData[]>([]);
     const [tableId, setTableId] = useState<string | number>('');
     const [showTable, setShowTable] = useState(false);
-    const [isExistingTable, setIsExistingTable] = useState(false); // Флаг: существует ли таблица
+    const [isExistingTable, setIsExistingTable] = useState(false);
 
     const SCHEDULE_TEMPLATE = [
         { time: "08:00 - 09:00", isBreak: false },
@@ -75,7 +75,6 @@ const SupervisorReportTactDuration = () => {
         { time: "16:00 - 17:00", isBreak: false },
     ];
 
-    // Функция маппинга строк
     const mapServerRows = useCallback((serverRows: ServerTableRow[]) => {
         let workRowIndex = 0;
         return SCHEDULE_TEMPLATE.map((slot) => {
@@ -109,7 +108,6 @@ const SupervisorReportTactDuration = () => {
                 deviation: row?.deviation || 0,
                 cumulativeDeviation: row?.deviationCumulative || 0,
                 downtimeMin: row?.downtimeMinutes || 0,
-                // ВАЖНО: берем ID ответственного с сервера
                 responsibleUserId: (row as any).responsibleUserId || undefined, 
                 responsible: (row?.responsibleUserName || '').trim(),
                 reasonGroup: row?.reasonGroupName || '',
@@ -119,7 +117,6 @@ const SupervisorReportTactDuration = () => {
         });
     }, []);
 
-    // Функция загрузки таблицы по shiftId
     const fetchTableByShift = useCallback(async (sId: number) => {
         try {
             const tableRes = await axiosInstance.get(`/PowerPerHourTable/${sId}/table`);
@@ -130,8 +127,6 @@ const SupervisorReportTactDuration = () => {
                 
                 setTableData(mapServerRows(data.rows));
 
-                // ПРИНУДИТЕЛЬНО ПРИВОДИМ К СТРОКЕ, чтобы select нашел совпадение
-                // Убеждаемся, что productId не пустой
                 if (data.productId) {
                     setProduct(String(data.productId)); 
                 }
@@ -155,11 +150,9 @@ const SupervisorReportTactDuration = () => {
         }
     }, [mapServerRows]);
 
-    // Загрузка первичных данных и продуктов
     useEffect(() => {
         const loadInitialData = async () => {
             try {
-                // Загружаем всё одним паком
                 const [deptRes, prodRes, shiftRes] = await Promise.all([
                     axiosInstance.get('/dictionaries/Department?page=1'),
                     axiosInstance.get('/dictionaries/Product?page=1'),
@@ -180,7 +173,6 @@ const SupervisorReportTactDuration = () => {
                         setStartTime(new Date(activeShift.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
                     }
                     
-                    // Проверяем таблицу
                     fetchTableByShift(activeShift.id);
                 }
             } catch (error) {
@@ -190,7 +182,6 @@ const SupervisorReportTactDuration = () => {
         loadInitialData();
     }, [fetchTableByShift]);
 
-    // Загрузка исполнителей
     useEffect(() => {
         const fetchExecutors = async () => {
             if (!division) {
@@ -229,7 +220,6 @@ const SupervisorReportTactDuration = () => {
 
         try {
             await axiosInstance.post('/PowerPerHourTable/create', payload);
-            // После создания просто дергаем загрузку заново
             if (shiftId) await fetchTableByShift(shiftId);
         } catch (error) {
             console.error("Ошибка при создании:", error);
@@ -245,7 +235,6 @@ const SupervisorReportTactDuration = () => {
                 executors={executors}
                 title="Производственный анализ"
                 analysisType="По времени такта"
-                // Кнопка срабатывает только если таблицы нет
                 onGenerate={isExistingTable ? () => {} : handleCreateReport}
                 commonState={{
                     shift, setShift, 
@@ -305,8 +294,6 @@ const SupervisorReportTactDuration = () => {
                 setData={setTableData}
                 headerInfo={{ 
                     divisionId: Number(division),
-                    // Если таблица существующая — берем имена из сервера, 
-                    // если только создаем — ищем в загруженных продуктах
                     product: isExistingTable 
                         ? headerNames.product 
                         : (products.find(p => p.id === Number(product))?.name || ''), 

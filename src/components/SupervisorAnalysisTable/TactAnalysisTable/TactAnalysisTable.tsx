@@ -16,7 +16,7 @@ export interface TableRowData {
     cumulativeDeviation: number;
     downtimeMin: number;
     responsible: string;
-    responsibleUserId?: number; // Храним ID для отправки
+    responsibleUserId?: number;
     reasonGroup: string;
     reasonComment: string;
     measures: string;
@@ -58,7 +58,6 @@ const TactAnalysisTable: React.FC<Props> = ({ tableId, data, setData, headerInfo
 
     useEffect(() => {
         const fetchUsers = async () => {
-            // Проверяем, что ID цеха пришел в headerInfo
             if (!headerInfo?.divisionId) return;
             
             try {
@@ -71,7 +70,6 @@ const TactAnalysisTable: React.FC<Props> = ({ tableId, data, setData, headerInfo
         fetchUsers();
     }, [headerInfo?.divisionId]);
 
-    // 1. Загрузка групп причин
     useEffect(() => {
         const fetchReasonGroups = async () => {
             try {
@@ -84,13 +82,11 @@ const TactAnalysisTable: React.FC<Props> = ({ tableId, data, setData, headerInfo
         fetchReasonGroups();
     }, []);
 
-    // 2. Загрузка пользователей по departmentId
     useEffect(() => {
         const fetchUsersByDepartment = async () => {
             if (!headerInfo.divisionId) return;
 
             try {
-                // Используем адрес: /users/{departmentId}
                 const res = await axiosInstance.get(`/users/${headerInfo.divisionId}`);
                 setShiftUsers(res.data);
             } catch (error) {
@@ -106,13 +102,11 @@ const TactAnalysisTable: React.FC<Props> = ({ tableId, data, setData, headerInfo
         setData(newData);
     };
 
-    // Хендлер для селекта ответственного
     const handleResponsibleChange = (index: number, userId: number) => {
         const selectedUser = shiftUsers.find(u => u.id === userId);
         const newData = [...data];
         
         newData[index].responsibleUserId = userId;
-        // Сохраняем имя текстом для отображения, если нужно
         newData[index].responsible = selectedUser 
             ? `${selectedUser.lastName} ${selectedUser.firstName}` 
             : '';
@@ -171,10 +165,9 @@ const TactAnalysisTable: React.FC<Props> = ({ tableId, data, setData, headerInfo
         if (!window.confirm("Вернуть таблицу оператору на доработку?")) return;
         setIsSubmitting(true);
         try {
-            // Предполагаем эндпоинт смены статуса (замените на ваш актуальный)
             await axiosInstance.put(`/PowerPerHourTable/update/status/${tableId}?status=На доработке`);
             alert("Отправлено на доработку");
-            navigate('/supervisor-check'); // Возврат к списку
+            navigate('/supervisor-check');
         } catch (error) {
             alert("Ошибка при смене статуса");
         } finally {
@@ -196,9 +189,7 @@ const TactAnalysisTable: React.FC<Props> = ({ tableId, data, setData, headerInfo
         }
     };
 
-// 2. Функция для отправки на проверку (только для оператора)
     const handleSendToReview = async () => {
-        // Сначала сохраняем текущие данные
         await handleSave();
 
         if (!window.confirm("Вы уверены? После отправки редактирование будет заблокировано.")) return;
@@ -217,7 +208,6 @@ const TactAnalysisTable: React.FC<Props> = ({ tableId, data, setData, headerInfo
 
     return (
         <div className="table-container">
-            {/* Header Info Block */}
             <div className="table-header-info">
                 <p>Продукт: <strong>{headerInfo.product}</strong></p>
                 <p>Цех: <strong>{headerInfo.division}</strong></p>
@@ -334,7 +324,7 @@ const TactAnalysisTable: React.FC<Props> = ({ tableId, data, setData, headerInfo
                         </button>
                     </>
                 ) : isOperatorPage ? (
-                    // КНОПКИ ДЛЯ ОПЕРАТОРА (как было раньше)
+                    // КНОПКИ ДЛЯ ОПЕРАТОРА
                     <>
                         <button className="save-table-button" onClick={handleSave} disabled={isSubmitting}>
                             Сохранить таблицу
@@ -346,7 +336,7 @@ const TactAnalysisTable: React.FC<Props> = ({ tableId, data, setData, headerInfo
                 ) : (
                     // КНОПКА ПРИ СОЗДАНИИ (Супервайзер)
                     <button className="submit-to-operator-button" onClick={handleSave} disabled={isSubmitting}>
-                        Отправить таблицу оператору
+                        Сохранить и отправить таблицу оператору
                     </button>
                 )}
             </div>

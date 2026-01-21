@@ -36,7 +36,6 @@ const PowerAnalysisTable: React.FC<PowerTableProps> = ({ data, setData, headerIn
             runningFact += row.fact;
             row.cumulativeFact = runningFact;
             
-            // Формула 13 из image_9b37a2.jpg: Отклонение = План - Факт
             row.deviation = row.isBreak ? 0 : row.plan - row.fact;
             runningDeviation += row.deviation;
             row.cumulativeDeviation = runningDeviation;
